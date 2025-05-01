@@ -1,13 +1,13 @@
-package com.wmi.gerador_de_relatorios_service;
+package com.wmi.report_generator_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GeradorDeRelatoriosServiceApplication {
+public class ReportGeneratorServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GeradorDeRelatoriosServiceApplication.class, args);
+        SpringApplication.run(ReportGeneratorServiceApplication.class, args);
     }
 
 }
