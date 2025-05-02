@@ -7,16 +7,24 @@ import java.time.LocalDateTime;
 public interface ExameSolicitadoProjection {
 
     EmpresaProjection getEmpresa();
+
     PacienteProjection getPaciente();
+
     ExameProjection getExame();
+
     UsuarioProjection getUsuario();
+
     String getStatus();
+
     String getIndicacao();
+
     BigDecimal getPreco();
+
     LocalDateTime getDataLaudo();
+
     LocalDate getDataExame();
+
     LocalDateTime getDataCriacao();
-    ParceiroProjection getParceiro();
 
     interface EmpresaProjection {
         String getNomeFantasia();
@@ -32,10 +40,6 @@ public interface ExameSolicitadoProjection {
 
     interface UsuarioProjection {
         String getUserName();
-    }
-
-    interface ParceiroProjection {
-        String getLogo();
     }
 }
 
