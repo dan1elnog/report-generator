@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: report-generator-service
+  datasource:
+    url: ${JDBC_DATABASE_URL:jdbc:mysql://186.209.113.131:3306/wmilaudos_sistema_antigo?serverTimezone=America/Sao_Paulo}
+    username: ${JDBC_DATABASE_USERNAME:wmilaudos_sistema_antigo}
+    password: ${JDBC_DATABASE_PASSWORD:jKD5nUldCLcuV_PmWy}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
