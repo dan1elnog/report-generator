@@ -2,6 +2,7 @@ package com.wmi.report_generator_service.service;
 
 import com.wmi.report_generator_service.controller.response.ExcelReportResponseDTO;
 import com.wmi.report_generator_service.dto.ExcelReportDTO;
+import com.wmi.report_generator_service.dto.GenerateExcelDTO;
 import com.wmi.report_generator_service.repository.ExameSolicitadoRepository;
 import com.wmi.report_generator_service.repository.ParceiroRepository;
 import com.wmi.report_generator_service.repository.projection.ExameSolicitadoProjection;
@@ -25,7 +26,7 @@ public class ExcelReportService {
     private final ExameSolicitadoRepository exameSolicitadoRepository;
     private final ParceiroRepository parceiroRepository;
 
-    public ExcelReportResponseDTO generateReport(Long invoiceId, Long partnerId) {
+    public ExcelReportResponseDTO generateReport(Long invoiceId, Long partnerId, String reportName) {
         List<ExcelReportDTO> excelReportRegisters = generateExcelReportRegisters(invoiceId, partnerId);
         String logo = parceiroRepository.findLogoById(partnerId);
 
@@ -33,7 +34,15 @@ public class ExcelReportService {
             throw new RuntimeException("registers not found for invoiceId = %s and partner = %s".formatted(invoiceId, partnerId));
         }
 
-        return excelUtil.generateExcel(EXCEL_REPORT_HEADERS, excelReportRegisters, logo);
+        GenerateExcelDTO generateExcelDTO = GenerateExcelDTO
+                .builder()
+                .logo(logo)
+                .values(excelReportRegisters)
+                .reportName(reportName)
+                .columnNames(EXCEL_REPORT_HEADERS)
+                .build();
+
+        return excelUtil.generateExcel(generateExcelDTO);
     }
 
     private List<ExcelReportDTO> generateExcelReportRegisters(Long invoiceId, Long partnerId) {

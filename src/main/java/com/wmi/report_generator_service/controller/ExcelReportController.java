@@ -21,9 +21,13 @@ public class ExcelReportController {
     private final ExcelReportService excelService;
 
     @GetMapping
-    public ResponseEntity<byte[]> generateReport(@RequestParam("invoiceId") Long invoiceId, @RequestParam("partnerId") Long partnerId) {
+    public ResponseEntity<byte[]> generateReport(
+            @RequestParam("invoiceId") Long invoiceId,
+            @RequestParam("partnerId") Long partnerId,
+            @RequestParam("reportName") String reportName
+    ) {
         log.info("receiving request to generate a excel report");
-        ExcelReportResponseDTO report = excelService.generateReport(invoiceId, partnerId);
+        ExcelReportResponseDTO report = excelService.generateReport(invoiceId, partnerId, reportName);
         return new ResponseEntity<>(report.getBytes(), report.getHttpHeaders(), HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.wmi.report_generator_service.util;
 
 import com.wmi.report_generator_service.controller.response.ExcelReportResponseDTO;
 import com.wmi.report_generator_service.dto.ExcelReportDTO;
+import com.wmi.report_generator_service.dto.GenerateExcelDTO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.util.IOUtils;
@@ -27,29 +28,29 @@ import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 @Service
 public class ExcelUtil {
 
-    private static ExcelReportResponseDTO generateExcelResponseDTO(Workbook workbook) throws IOException {
+    private static ExcelReportResponseDTO generateExcelResponseDTO(Workbook workbook, String reportName) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         workbook.write(out);
         byte[] bytes = out.toByteArray();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_OCTET_STREAM);
-        headers.setContentDisposition(ContentDisposition.attachment().filename("usuarios.xlsx").build());
+        headers.setContentDisposition(ContentDisposition.attachment().filename(reportName.concat(".xlsx")).build());
 
         return ExcelReportResponseDTO.builder().bytes(bytes).httpHeaders(headers).build();
     }
 
-    public ExcelReportResponseDTO generateExcel(List<String> columnNames, List<ExcelReportDTO> values, String logo) {
+    public ExcelReportResponseDTO generateExcel(GenerateExcelDTO generateExcelDTO) {
         try (Workbook workbook = new HSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("dados");
-            generateHeader(workbook, sheet, columnNames);
-            generateCellValues(sheet, values);
+            Sheet sheet = workbook.createSheet(generateExcelDTO.getReportName());
+            generateHeader(workbook, sheet, generateExcelDTO.getColumnNames());
+            generateCellValues(sheet, generateExcelDTO.getValues());
 
-            if (nonNull(logo)) {
-                generateLogoImage(workbook, sheet, logo);
+            if (nonNull(generateExcelDTO.getLogo())) {
+                generateLogoImage(workbook, sheet, generateExcelDTO.getLogo());
             }
 
-            return generateExcelResponseDTO(workbook);
+            return generateExcelResponseDTO(workbook, generateExcelDTO.getReportName());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -139,7 +140,7 @@ public class ExcelUtil {
 
             for (int col = 0; col < totalColumns; col++) {
                 String text = fields[col] != null ? fields[col] : "-";
-                row.createCell(col).setCellValue(text);
+                row.createCell(col).setCellValue(text.equals("null") ? "-" : text);
 
                 int actualSize = cellSizes.get(col);
                 cellSizes.set(col, Math.max(actualSize, text.length()));
