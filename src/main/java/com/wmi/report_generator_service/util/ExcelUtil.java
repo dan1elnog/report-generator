@@ -28,18 +28,6 @@ import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 @Service
 public class ExcelUtil {
 
-    private static ExcelReportResponseDTO generateExcelResponseDTO(Workbook workbook, String reportName) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        workbook.write(out);
-        byte[] bytes = out.toByteArray();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(APPLICATION_OCTET_STREAM);
-        headers.setContentDisposition(ContentDisposition.attachment().filename(reportName.concat(".xlsx")).build());
-
-        return ExcelReportResponseDTO.builder().bytes(bytes).httpHeaders(headers).build();
-    }
-
     public ExcelReportResponseDTO generateExcel(GenerateExcelDTO generateExcelDTO) {
         try (Workbook workbook = new HSSFWorkbook()) {
             Sheet sheet = workbook.createSheet(generateExcelDTO.getReportName());
@@ -54,6 +42,18 @@ public class ExcelUtil {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private ExcelReportResponseDTO generateExcelResponseDTO(Workbook workbook, String reportName) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        workbook.write(out);
+        byte[] bytes = out.toByteArray();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(APPLICATION_OCTET_STREAM);
+        headers.setContentDisposition(ContentDisposition.attachment().filename(reportName.concat(".xlsx")).build());
+
+        return ExcelReportResponseDTO.builder().bytes(bytes).httpHeaders(headers).build();
     }
 
     private void generateLogoImage(Workbook workbook, Sheet sheet, String logo) throws IOException {
