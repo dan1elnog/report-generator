@@ -17,11 +17,11 @@ public class ReportTypeUtil {
             RELATORIO_LAUDO_1_IMAGEM_DETALHADO, "/reports/laudo-com-1-imagem-detalhado.jrxml",
             RELATORIO_LAUDO_2_IMAGENS, "/reports/laudo-com-duas-imagens.jrxml",
             RELATORIO_LAUDO_3_IMAGENS, "/reports/laudo-com-tres-imagens.jrxml",
-            RELATORIO_LAUDO_4_IMAGENS,"/reports/laudo-com-quatro-imagens.jrxml"
+            RELATORIO_LAUDO_4_IMAGENS, "/reports/laudo-com-quatro-imagens.jrxml"
     );
 
-    public static String getPathToReportByType(String reportType){
-        if(isNull(reportType)){
+    public static String getPathToReportByType(String reportType) {
+        if (isNull(reportType)) {
             return map.get(RELATORIO_LAUDO_SEM_IMAGEM);
         }
 

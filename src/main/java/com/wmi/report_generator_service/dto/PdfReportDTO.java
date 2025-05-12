@@ -47,7 +47,7 @@ public class PdfReportDTO {
     private String carimbo;
     private String imagemLaudo;
 
-    public Map<String, String> getAttributes(){
+    public Map<String, String> getAttributes() {
         Map<String, String> attributes = new HashMap<>();
 
         Optional.ofNullable(logo).ifPresent(value -> attributes.put("logo", logo));

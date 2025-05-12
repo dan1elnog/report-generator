@@ -1,12 +1,12 @@
 package com.wmi.report_generator_service.controller;
 
 import com.wmi.report_generator_service.controller.response.PdfReportResponseDTO;
-import com.wmi.report_generator_service.dto.GeneratePdfDTO;
 import com.wmi.report_generator_service.dto.PdfReportDTO;
+import com.wmi.report_generator_service.dto.PdfXRayOitReportDTO;
 import com.wmi.report_generator_service.service.PdfReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +29,22 @@ public class PdfReportController {
         log.info("receiving request to generate a pdf report with request == {}, report name == {} and report type == {}", pdfReportDTO, reportName, reportType);
 
         PdfReportResponseDTO response = pdfReportService.generatePdfReport(pdfReportDTO, reportName, reportType);
-        return  ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename="+ response.getReportName() +".pdf")
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + response.getReportName() + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(response.getPdf());
+    }
+
+    @GetMapping("/raio-x-oit")
+    public ResponseEntity<byte[]> generateReportXRayOit(
+            @RequestHeader(value = "reportName", required = false) String reportName,
+            @RequestBody PdfXRayOitReportDTO pdfXRayOitReportDTO
+    ) throws JRException {
+        log.info("receiving request to generate a pdf report with request == {}, report name == {}", pdfXRayOitReportDTO, reportName);
+
+        PdfReportResponseDTO response = pdfReportService.generatePdfReportXRayOit(pdfXRayOitReportDTO, reportName);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + response.getReportName() + ".pdf")
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(response.getPdf());
     }

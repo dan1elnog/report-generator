@@ -9,6 +9,8 @@ public class ConstantsUtil {
     public static final Integer INITIAL_POSITION_EXCEL_BODY = 7;
     public static final Integer TOTAL_COLUMNS_EXCEL_REPORT = 10;
 
+    public static final String REPORT_X_RAY_OIT_PATH = "/reports/laudo-raio-x-oit.jrxml";
+
     public static final List<String> EXCEL_REPORT_HEADERS = List.of("Paciente", "Empresa", "Exame", "Indicação",
             "Preço", "Data exame", "Data laudo", "Status", "Data criação exame", "Usuário");
 
