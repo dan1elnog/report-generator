@@ -45,6 +45,7 @@ public class PdfReportDTO {
     private String token;
     private String watermark;
     private String carimbo;
+    private String imagemLaudo;
 
     public Map<String, String> getAttributes(){
         Map<String, String> attributes = new HashMap<>();
@@ -84,6 +85,7 @@ public class PdfReportDTO {
         Optional.ofNullable(token).ifPresent(value -> attributes.put("token", token));
         Optional.ofNullable(watermark).ifPresent(value -> attributes.put("watermark", watermark));
         Optional.ofNullable(carimbo).ifPresent(value -> attributes.put("carimbo", carimbo));
+        Optional.ofNullable(imagemLaudo).ifPresent(value -> attributes.put("imagem_laudo", imagemLaudo));
 
         return attributes;
     }

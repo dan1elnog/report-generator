@@ -11,14 +11,17 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import static com.wmi.report_generator_service.util.ReportTypeUtil.getPathToReportByType;
 import static java.util.Objects.isNull;
 
 @Service
 public class PdfReportService {
 
     public PdfReportResponseDTO generatePdfReport(PdfReportDTO pdfReportDTO, String reportName, String reportType) throws JRException {
+        String reportPath = getReportType(reportType);
+
         // Carrega o .jrxml
-        InputStream input = getClass().getResourceAsStream("/reports/laudo-raio-x-sem-imagens.jrxml");
+        InputStream input = getClass().getResourceAsStream(getPathToReportByType(reportType));
 
         // Compila o relatório
         JasperReport report = JasperCompileManager.compileReport(input);
@@ -35,5 +38,11 @@ public class PdfReportService {
         byte[] pdf = JasperExportManager.exportReportToPdf(print); // Exporta para PDF
 
         return PdfReportResponseDTO.builder().reportName(name).pdf(pdf).build();
+    }
+
+    private String getReportType(String reportType) {
+
+
+        return null;
     }
 }
