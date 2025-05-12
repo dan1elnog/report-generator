@@ -3,4 +3,8 @@ package com.wmi.report_generator_service.enums;
 public enum ReportType {
     RELATORIO_LAUDO_SEM_IMAGEM,
     RELATORIO_LAUDO_1_IMAGEM,
+    RELATORIO_LAUDO_1_IMAGEM_DETALHADO,
+    RELATORIO_LAUDO_3_IMAGENS,
+    RELATORIO_LAUDO_2_IMAGENS,
+    RELATORIO_LAUDO_4_IMAGENS
 }
